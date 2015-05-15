@@ -1,5 +1,6 @@
 ﻿using Exortech.NetReflector;
 using SlackPublisher;
+using ThoughtWorks.CruiseControl.Remote;
 
 namespace ThoughtWorks.CruiseControl.Core.Publishers
 {
@@ -21,12 +22,13 @@ namespace ThoughtWorks.CruiseControl.Core.Publishers
 
         private string FormatText(IIntegrationResult result)
         {
-            return string.Format("<{0}|{1}> {2} {3} {4}",
+            return string.Format("{0} <{1}|{2}> {3} #{4}",
+                result.Succeeded ? ":verynice:" : ":poop:",
                 result.ProjectUrl,
                 result.ProjectName,
-                result.Label,
-                result.Status,
-                result.Succeeded ? ":white_check_mark:" : ":interrobang:");
+                result.Status == IntegrationStatus.Exception ? "Build Failed" : result.Status.ToString(),
+                result.Label
+            );
         }
     }
 }
